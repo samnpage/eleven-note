@@ -6,8 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-// Add connection string and DbContext setup
+// Adds connection string to variable.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Adds connection string to our DbContext.
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddControllers();
 // Add User Service/Interface for Dependancy Injection here
