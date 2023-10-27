@@ -1,5 +1,7 @@
 using ElevenNote.Data;
+using ElevenNote.Data.Entities;
 using ElevenNote.Services.User;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,20 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 // Adds connection string to our DbContext.
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+
+// Leverages Identity framework
+builder.Services.AddDefaultIdentity<UserEntity>(options =>
+{
+    // Password configuration, optional
+    options.Password.RequiredLength = 4;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireNonAlphanumeric = false;
+})
+    .AddRoles<IdentityRole<int>>() // Enable Roles, optional
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddControllers();
 // Add User Service/Interface for Dependancy Injection here
 builder.Services.AddScoped<IUserService, UserService>();
