@@ -1,6 +1,3 @@
 namespace ElevenNote.Models.Responses;
 
-public class TextResponse
-{
-
-}
+public record TextResponse(string message);
