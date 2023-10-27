@@ -60,6 +60,26 @@ public class UserService : IUserService
 
     }
 
+    // Gets user info by id. Returns null if it does not exist.
+    public async Task<UserDetail?> GetUserByIdAsync(int userId)
+    {
+        UserEntity? entity = await _context.Users.FindAsync(userId);
+        if (entity is null)
+            return null;
+
+        UserDetail detail = new()
+        {
+            Id = entity.Id,
+            Email = entity.Email!,
+            UserName = entity.UserName!,
+            FirstName = entity.FirstName!,
+            LastName = entity.LastName,
+            DateCreated = entity.DateCreated
+        };
+
+        return detail;
+    }
+
     // Helper Methods
     // Checks whether the user's email is unique
     private async Task<bool> CheckEmailAvailability(string email)
