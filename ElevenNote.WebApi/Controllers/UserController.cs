@@ -36,4 +36,17 @@ public class UserController : ControllerBase
 
         return BadRequest(new TextResponse("User could not be registered."));
     }
+
+    [HttpGet("{userId:int}")]
+    public async Task<IActionResult> GetById([FromRoute] int userId)
+    {
+        UserDetail? detail = await _userService.GetUserByIdAsync(userId);
+
+        if (detail is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(detail);
+    }
 }
