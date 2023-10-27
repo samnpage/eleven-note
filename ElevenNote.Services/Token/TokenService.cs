@@ -1,4 +1,6 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 using ElevenNote.Data.Entities;
 using ElevenNote.Models.Token;
 using Microsoft.AspNetCore.Identity;
@@ -47,16 +49,61 @@ public class TokenService : ITokenService
 
     private async Task<TokenResponse> GenerateTokenAsync(UserEntity entity)
     {
-        throw new NotImplementedException();
+        List<Claim> claims = await GetUserClaimsAsync(entity);
+        SecurityTokenDescriptor tokenDescriptor = GetTokenDescriptor(claims);
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+
+        TokenResponse response = new()
+        {
+            Token = tokenHandler.WriteToken(token),
+            IssuedAt = token.ValidFrom,
+            Expires = token.ValidTo
+        };
+
+        return response;
+        // throw new NotImplementedException();
     }
 
     private async Task<List<Claim>> GetUserClaimsAsync(UserEntity entity)
     {
-        throw new NotImplementedException();
+        List<Claim> claims = new()
+        {
+            new Claim(ClaimTypes.NameIdentifier, entity.Id.ToString()),
+            new Claim(ClaimTypes.Name, entity.UserName!),
+            new Claim(ClaimTypes.Email, entity.Email!)
+        };
+
+        var roles = await _userManager.GetRolesAsync(entity);
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
+        return claims;
+        // throw new NotImplementedException();
     }
 
     private SecurityTokenDescriptor GetTokenDescriptor(List<Claim> claims)
     {
-        throw new NotImplementedException();
+        var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!);
+        var secret = new SymmetricSecurityKey(key);
+        var signingCredentials = new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+
+        SecurityTokenDescriptor tokenDescriptor = new()
+        {
+            Issuer = _configuration["Jwt;Issuer"]!,
+            Audience = _configuration["Jwt:Audience"]!,
+            Subject = new ClaimsIdentity(claims),
+            IssuedAt = DateTime.UtcNow,
+            Expires = DateTime.UtcNow.AddDays(14),
+            SigningCredentials = signingCredentials
+        };
+
+        return tokenDescriptor;
+        
+        // throw new NotImplementedException();
     }
 }
