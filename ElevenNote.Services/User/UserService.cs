@@ -34,8 +34,16 @@ public class UserService : IUserService
     public async Task<bool> RegisterUserAsync(UserRegister model)
     {
         //  checks the returned value from both methods. If either return anything but null, we'll know it's invalid data.
-        if (await CheckEmailAvailability(model.Email) == false || await CheckUserNameAvailability(model.UserName) == false)
+        if (await CheckEmailAvailability(model.Email) == false)
+        {
+            Console.WriteLine("Invalid email, already in use");
             return false;
+        }
+        if (await CheckUserNameAvailability(model.UserName) == false)
+        {
+            Console.WriteLine("Invalid username, already in use.");
+            return false;
+        }
 
         // Calls our UserEntity entity and applys each property value collected to its respective property.
         UserEntity entity = new()
