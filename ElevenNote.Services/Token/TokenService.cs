@@ -94,7 +94,7 @@ public class TokenService : ITokenService
 
         SecurityTokenDescriptor tokenDescriptor = new()
         {
-            Issuer = _configuration["Jwt;Issuer"]!,
+            Issuer = _configuration["Jwt:Issuer"]!,
             Audience = _configuration["Jwt:Audience"]!,
             Subject = new ClaimsIdentity(claims),
             IssuedAt = DateTime.UtcNow,
