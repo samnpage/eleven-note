@@ -13,7 +13,7 @@ namespace ElevenNote.WebApi.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    // Field
+    // Fields that access our services
     private readonly IUserService _userService;
     private readonly ITokenService _tokenService;
 
