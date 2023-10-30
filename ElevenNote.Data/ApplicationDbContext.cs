@@ -10,6 +10,8 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity, IdentityRole<i
     // Constructor that passes in options that apply to dbcontext that pulls from program.cs. (passing it the connection string.)
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
+    public DbSet<NoteEntity> Notes { get; set; } = null!;
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
