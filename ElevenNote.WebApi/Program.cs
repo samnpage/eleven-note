@@ -1,6 +1,7 @@
 using System.Text;
 using ElevenNote.Data;
 using ElevenNote.Data.Entities;
+using ElevenNote.Services.Note;
 using ElevenNote.Services.Token;
 using ElevenNote.Services.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -54,6 +55,7 @@ builder.Services.AddControllers();
 // Add User Service/Interface for Dependancy Injection here
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<INoteService, NoteService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
