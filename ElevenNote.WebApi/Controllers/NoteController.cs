@@ -68,7 +68,7 @@ public class NoteController : ControllerBase
     }
 
     // DELETE api/Note/5
-    [HttpDelete("noteId:int")]
+    [HttpDelete("{noteId:int}")]
     public async Task<IActionResult> DeleteNote([FromRoute] int noteId)
     {
         return await _noteService.DeleteNoteAsync(noteId)
