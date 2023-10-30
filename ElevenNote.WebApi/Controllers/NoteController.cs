@@ -40,4 +40,18 @@ public class NoteController : ControllerBase
 
         return BadRequest(new TextResponse("Could not create note"));
     }
+
+    // GET api/Note/5
+    [HttpGet("{noteId:int}")]
+    public async Task<IActionResult> GetNoteById([FromRoute] int noteId)
+    {
+        NoteDetail? detail = await _noteService.GetNoteByIdAsync(noteId);
+
+        // Similar to out service method, we're using a ternary to determine our return type.
+        // If the returned value (detail) is not null, we'll return it inside a 200 OK.
+        // Otherwise we'll return a notFound() 404 response.
+        return detail is not null
+            ? Ok(detail)
+            : NotFound();
+    }
 }
