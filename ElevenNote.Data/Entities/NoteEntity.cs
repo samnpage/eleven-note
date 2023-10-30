@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ElevenNote.Data.Entities;
 
@@ -8,7 +9,9 @@ public class NoteEntity
     public int Id { get; set; }
 
     [Required]
+    [ForeignKey(nameof(Owner))]
     public int OwnerId { get; set; }
+    public UserEntity Owner { get; set; } = null!;
 
     [Required, MinLength(1), MaxLength(100)]
     public string Title { get; set; } = string.Empty;
