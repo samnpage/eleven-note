@@ -68,4 +68,25 @@ public class NoteService : INoteService
         
         return notes;
     }
+
+    public async Task<NoteDetail?> GetNoteByIdAsync(int noteId)
+    {
+        // Find the first note that has the given Id
+        // an an OwnerId that matches the requesting _userId
+        NoteEntity? entity = await _dbContext.Notes
+            .FirstOrDefaultAsync(e =>
+                e.Id == noteId && e.OwnerId == _userId
+            );
+
+        // If the note entity is null then return null
+        // Otherwise initialize and return a new NoteDetail
+        return entity is null ? null : new NoteDetail
+        {
+            Id = entity.Id,
+            Title = entity.Title,
+            Content = entity.Content,
+            CreatedUtc = entity.CreatedUtc,
+            ModifiedUtc = entity.ModifiedUtc
+        };
+    }
 }
