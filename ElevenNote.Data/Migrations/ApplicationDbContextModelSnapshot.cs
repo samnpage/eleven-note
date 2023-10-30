@@ -51,6 +51,8 @@ namespace ElevenNote.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OwnerId");
+
                     b.ToTable("Notes");
                 });
 
@@ -270,6 +272,17 @@ namespace ElevenNote.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ElevenNote.Data.Entities.NoteEntity", b =>
+                {
+                    b.HasOne("ElevenNote.Data.Entities.UserEntity", "Owner")
+                        .WithMany("Notes")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
@@ -319,6 +332,11 @@ namespace ElevenNote.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ElevenNote.Data.Entities.UserEntity", b =>
+                {
+                    b.Navigation("Notes");
                 });
 #pragma warning restore 612, 618
         }
