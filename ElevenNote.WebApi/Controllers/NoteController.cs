@@ -19,6 +19,7 @@ public class NoteController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<NoteListItem>), 200)]
     public async Task<IActionResult> GetAllNotes()
     {
         var notes = await _noteService.GetAllNotesAsync();
@@ -27,6 +28,7 @@ public class NoteController : ControllerBase
 
     // Post api/Note
     [HttpPost]
+    [ProducesResponseType(typeof(IEnumerable<NoteListItem>), 200)]
     public async Task<IActionResult> CreateNote([FromBody] NoteCreate request)
     {
         if (!ModelState.IsValid)
@@ -57,6 +59,7 @@ public class NoteController : ControllerBase
 
     // PUT api/Note
     [HttpPut]
+    [ProducesResponseType(typeof(IEnumerable<NoteListItem>), 200)]
     public async Task<IActionResult> UpdateNoteById([FromBody] NoteUpdate request)
     {
         if (!ModelState.IsValid)

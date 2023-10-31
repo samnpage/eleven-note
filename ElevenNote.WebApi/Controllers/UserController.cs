@@ -25,6 +25,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("Register")]
+    [ProducesResponseType(typeof(IEnumerable<UserRegister>), 200)]
     public async Task<IActionResult> RegisterUser([FromBody] UserRegister model)
     {
         if (!ModelState.IsValid)
@@ -57,6 +58,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("~/api/Token")]
+    [ProducesResponseType(typeof(IEnumerable<TokenRequest>), 200)]
     public async Task<IActionResult> GetToken([FromBody] TokenRequest request)
     {
         if (!ModelState.IsValid)
