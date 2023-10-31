@@ -1,6 +1,7 @@
 using System.Text;
 using ElevenNote.Data;
 using ElevenNote.Data.Entities;
+using ElevenNote.Models.Maps;
 using ElevenNote.Services.Note;
 using ElevenNote.Services.Token;
 using ElevenNote.Services.User;
@@ -57,6 +58,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddAutoMapper(typeof(NoteMapProfile));
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
